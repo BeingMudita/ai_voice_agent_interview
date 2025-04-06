@@ -30,7 +30,6 @@ const Page = ()=>{
               <InterviewCard {...interview} key={interview.id}/>
             ))}
         </div>
-        <p>You haven't taken any interviews yet...</p>
         </div>
       </section>
 
