@@ -4,13 +4,13 @@ import Image from 'next/image';
 import React from 'react';
 import InterviewCard from '@/components/InterviewCard';
 import { getCurrentUser } from '@/lib/actions/auth.action';
-import { getInterviewByUserId, getLatestInterviews } from '@/lib/actions/general.action';
+import { getInterviewsByUserId, getLatestInterviews } from '@/lib/actions/general.action';
 
 const Page = async()=>{
   const user = await getCurrentUser();
 
   const [userInterviews, latestInterviews] = await Promise.all([
-    await getInterviewByUserId(user?.id!),
+    await getInterviewsByUserId(user?.id!),
     await getLatestInterviews({userId: user?.id!})
   ])
   
