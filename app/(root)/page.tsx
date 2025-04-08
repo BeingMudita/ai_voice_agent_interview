@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { dummyInterviews } from '@/constants';
 import { Link } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import InterviewCard from '@/components/InterviewCard';
-import { getCurrentUser, getInterviewByUserId, getLatestInterviews } from '@/lib/actions/auth.action';
+import { getCurrentUser } from '@/lib/actions/auth.action';
+import { getInterviewByUserId, getLatestInterviews } from '@/lib/actions/general.action';
 
 const Page = async()=>{
   const user = await getCurrentUser();
