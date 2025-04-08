@@ -4,7 +4,19 @@ import { Link } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import InterviewCard from '@/components/InterviewCard';
-const Page = ()=>{
+import { getCurrentUser, getInterviewByUserId, getLatestInterviews } from '@/lib/actions/auth.action';
+
+const Page = async()=>{
+  const user = await getCurrentUser();
+
+  const [userInterviews, latestInterviews] = await Promise.all([
+    await getInterviewByUserId(user?.id!),
+    await getLatestInterviews({userId: user?.id!})
+  ])
+  
+  const hasPastInterviews = userInterviews?.length>0;
+  const hasUpComingInterviews = latestInterviews?.length>0;
+  
   return (
     <>
       <section className='card-cta'>
@@ -26,9 +38,13 @@ const Page = ()=>{
         <h2>Your Interviews</h2>
         <div className='interviews-section'>
           <div className='interviews-section'>
-            {dummyInterviews.map((interview) => (
-              <InterviewCard {...interview} key={interview.id}/>
-            ))}
+            {hasPastInterviews ? (
+              userInterviews?.map((interview) => (
+                <InterviewCard {...interview} key={interview.id}/>
+              ))
+            ) : (
+              <p> You haven't taken any interviews yet</p>
+            )}
         </div>
         </div>
       </section>
@@ -36,9 +52,13 @@ const Page = ()=>{
       <section className='flex flex-col gap-6 mt-8'>
         <h2>Take an interview</h2>
         <div className='interviews-section'>
-          {dummyInterviews.map((interview) => (
-            <InterviewCard {...interview} key={interview.id}/>
-          ))}
+            {hasUpComingInterviews ? (
+              latestInterviews?.map((interview) => (
+                <InterviewCard {...interview} key={interview.id}/>
+              ))
+            ) : (
+              <p>There are no interviews available</p>
+            )}
         </div>
       </section>
     </>
